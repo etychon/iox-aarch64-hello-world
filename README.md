@@ -184,8 +184,6 @@ In essence you will need to:
 
 When the application is running, go to your application's "Log" tab and see the `helloworld.log` file. It is the proof that you container is running.
 
-![hello-log](images/hello.png)
-
 If the code is configurable, describe it in detail, either here or in other documentation that you reference.
 
 ### DevNet Sandbox
