@@ -1,14 +1,14 @@
-# iox-x86-hello-world
+# iox-aarch64-hello-world
 
-This is an IOx application that is meant to be executed on x86-based Cisco platforms such as IR809, IR829 and IC3000.
+This is an IOx application that is meant to be executed on ARM-based Cisco platforms such as IR1101 and IE3400.
 
 ## Use Case Description
 
-The purpose of this example is to demonstrate how to build a small but complete Docker image that will execute on x86 based platforms. The core of this example is a classic Hello World example, logging output to a log file accessible through Cisco IOx Local Manager.
+The purpose of this example is to demonstrate how to build a small but complete Docker image that will execute on ARM based platforms but compiled on x86-based platforms. The core of this example is a classic Hello World example, logging output to a log file accessible through Cisco IOx Local Manager.
 
-This has been tested on IR8x9 and IC3000.
+This has been tested on IR1101.
 
-If you do not want to build your own package, a pre-built, ready-to-use IOx application can be [directly downloaded from the Releases](https://github.com/etychon/iox-x86-hello-world/releases). It can also be used as a sample application for IOx.
+If you do not want to build your own package, a pre-built, ready-to-use IOx application can be [directly downloaded from the Releases](https://github.com/etychon/iox-aarch64-hello-world/releases). It can also be used as a sample application for IOx.
 
 ## Package Components
 
@@ -74,7 +74,7 @@ We can then run the `helloworld` program confidently knowing that our log file i
   Out of the image we will only keep the `helloword` program, therefore the final image will not have GCC as this will not be needed. It is imperative to keep your running containers small and tidy to reduce the size, dependencies, complexity, and to reduce the attack surface.
 
   ```
-  FROM devhub-docker.cisco.com/iox-docker/ir800/base-rootfs as builder
+  FROM devhub-docker.cisco.com/iox-docker/ir1101/base-rootfs as builder
   RUN opkg update
   RUN opkg install iox-toolchain
   RUN mkdir -p /var/helloworld/
@@ -88,7 +88,7 @@ We can then run the `helloworld` program confidently knowing that our log file i
   `helloworld` is then made executable and lastly we run the `start.sh` script made previously that is the wrapper to start `helloworld`.
 
   ```
-  FROM devhub-docker.cisco.com/iox-docker/ir800/base-rootfs
+  FROM devhub-docker.cisco.com/iox-docker/ir1101/base-rootfs
   RUN mkdir -p /var/helloworld/
   COPY --from=builder /var/helloworld/helloworld /var/helloworld
   COPY start.sh /
@@ -98,11 +98,11 @@ We can then run the `helloworld` program confidently knowing that our log file i
 
 We now have everything in place to build the Docker image with:
 
-    docker build -t iox-x86-hello-world .
+    docker build -t iox-aarch64-hello-world .
 
 You can check is this runs on your computer with:
 
-    docker run iox-x86-hello-world
+    docker run iox-aarch64-hello-world
 
 While this runs, the /tmp/helloworld.log should fill up like this:
 
@@ -118,8 +118,8 @@ The `info` section is what is going to be visible after the application is deplo
 
 ```
 info:
-  name: iox-x86-secure-storage-demo
-  description: "Small Linux with CURL to test IOx Secure Storage"
+  name: iox-aarch64-hello-world
+  description: "Small Linux hello world"
   version: "1.0"
   author-link: "http://www.cisco.com"
   author-name: "Cisco Systems"
@@ -132,7 +132,7 @@ Should you need to expose specific UDP or TCP ports, this is where this will als
 ```
 app:
   type: docker
-  cpuarch: x86_64
+  cpuarch: aarch64
   resources:
     profile: custom
     cpu: 100
@@ -153,7 +153,7 @@ The wrapper script can also be used to restart a crashed application. While it i
 ```
 startup:
   rootfs: rootfs.tar
-  target: ['/bin/sh', '/start.sh']    
+  target: ['/usr/bin/sh', '/start.sh']    
 ```
 
 You can find a comprehensive list of all possible options on [Cisco DevNet - IOx Package Descriptor](https://developer.cisco.com/docs/iox/#!package-descriptor/iox-package-descriptor) documentation.
@@ -162,10 +162,10 @@ You can find a comprehensive list of all possible options on [Cisco DevNet - IOx
 
 Now that we have everything in place we can build the IOx application using the `ioxclient` utility. Simply do:
 
-    ioxclient docker package iox-x86-hello-world . \
-        -n iox-x86-hello-world --use-targz
+    ioxclient docker package iox-aarch64-hello-world . \
+        -n iox-aarch64-hello-world --use-targz
 
-And you should have a file `iox-x86-hello-world.tar.gz` in your current directory which is your IOx application.
+And you should have a file `iox-aarch64-hello-world.tar.gz` in your current directory which is your IOx application.
 
 #### Installation
 
@@ -176,7 +176,7 @@ Because accessing Local Manager can be sightly different depending how your gate
 In essence you will need to:
 
 * Log in to Cisco IOx Local Manager
-* Deploy the application `iox-x86-hello-world.tar.gz`
+* Deploy the application `iox-aarch64-hello-world.tar.gz`
 * Activate the application
 * Start the application
 
