@@ -11,5 +11,5 @@ RUN mkdir -p /var/helloworld/
 COPY --from=builder /var/helloworld/helloworld /var/helloworld
 COPY start.sh /
 RUN chmod +x /var/helloworld/helloworld
-# CMD ["/bin/sh", "/start.sh"]
-CMD /var/helloworld/helloworld
+CMD ["sh", "/start.sh"]
+# CMD /var/helloworld/helloworld

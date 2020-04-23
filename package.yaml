@@ -22,6 +22,6 @@ app:
   # Specify runtime and startup
   startup:
     rootfs: rootfs.tar
-  #  target: ['/bin/sh', '/start.sh']
-    target: "/var/helloworld/helloworld"
+    target: ['/usr/bin/sh', '/start.sh']
+ #   target: "/var/helloworld/helloworld"
     

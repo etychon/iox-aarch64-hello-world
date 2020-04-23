@@ -1,5 +1,3 @@
-#!/bin/sh
-
 # Load env variables if needed
 
 CAF_SS_ENV_FILE="/data/.env"
